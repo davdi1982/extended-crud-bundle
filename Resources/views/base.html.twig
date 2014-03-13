@@ -12,10 +12,6 @@
             filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-
-        {#{% javascripts '@DatawordsQaCheckBundle/Resources/public/js/qa-check.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}#}
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
