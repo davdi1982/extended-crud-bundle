@@ -1,0 +1,52 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity }} entities.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/list/{page}", name="{{ route_name_prefix }}", requirements={"page" = "\d+"}, defaults={"page" = 1})
+     * @Route("/", name="{{ route_name_prefix }}_root", defaults={"page" = 1})
+     * @Method("GET")
+     * @Template()
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function indexAction($page = 1)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $em = $this->getDoctrine()->getManager();
+        
+        $count = $em
+            ->getRepository('{{ bundle }}:{{ entity }}')
+            ->createQueryBuilder('id')
+            ->select('COUNT(id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        $pages = ceil($count / 20);
+        
+        $entities = $em->getRepository('{{ bundle }}:{{ entity }}')
+        ->findBy(array(), NULL, 20, (($page - 1) * 20));
+{% endblock method_body %}
+
+{% block method_return %}
+{% if 'annotation' == format %}
+        return array(
+            'entities' => $entities,
+            'pages' => $pages,
+            'page' => $page,
+        );
+{% else %}
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.html.twig', array(
+            'entities' => $entities,
+            'pages' => $pages,
+            'page' => $page,
+        ));
+{% endif %}
+{% endblock method_return %}
+    }

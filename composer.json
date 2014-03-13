@@ -1,0 +1,27 @@
+{
+    "name": "developathe/crud-bundle",
+    "type": "symfony-bundle",
+    "description": "CRUD Bundle by Dévelopathe",
+    "keywords": ["crud", "bootstrap", "bootstrap3", "scaffolding"],
+    "homepage": "http://developathe.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jean-Luc Petit",
+            "homepage": "http://al.k13.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.3"
+    },
+    "require-dev": {
+        "symfony/class-loader": "~2.3"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": { "Developathe\\CrudBundle": "" }
+    },
+    "target-dir": "Developathe/CrudBundle"
+}

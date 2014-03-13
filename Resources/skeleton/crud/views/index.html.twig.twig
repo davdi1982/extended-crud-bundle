@@ -1,0 +1,78 @@
+{% block extends %}
+{{ "{% extends '" ~ bundle ~ ":" ~ entity ~ ":common.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "\{% set title = '" ~ entity ~ " list'|trans %\}" }}
+
+{% block body %}
+{{ "{% block body -%}" }}
+<div class="panel panel-default">
+    <table class="table table-striped table-hover table-responsive">
+        <thead>
+            <tr>
+                {%- for field, metadata in fields %}
+
+                <th>{{"{% trans %}"}}{{ field|capitalize }}{{"{% endtrans %}"}}</th>
+
+                {%- endfor %}
+
+                <th><span class="glyphicon glyphicon-edit" title="{{"{% trans %}"}}Edit{{"{% endtrans %}"}}"></span></th>
+                <th><span class="glyphicon glyphicon-remove" title="{{"{% trans %}"}}Delete{{"{% endtrans %}"}}"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ '{% for entity in entities %}' }}
+            <tr>
+
+            {%- for field, metadata in fields %}
+                {%- if loop.first and ('show' in actions) %}
+
+                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                {%- elseif metadata.type in ['date', 'datetime'] %}
+
+                <td>{{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                {%- else %}
+
+                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                {%- endif %}
+
+                {%- if loop.last %}
+
+                <td>
+                    <a href="{{"{{ path('" ~ route_name_prefix ~ "_edit', {'id': entity.id}) }}"}}" title="{{"{% trans %}"}}Edit{{"{% endtrans %}"}}">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="{{"{{ path('" ~ route_name_prefix ~ "_delete', {'id': entity.id}) }}"}}" title="{{"{% trans %}"}}Delete{{"{% endtrans %}"}}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+
+                {%- endif %}
+            {%- endfor %}
+
+            </tr>
+            {{ '{% endfor %}' }}
+        </tbody>
+    </table>
+
+    {{"{% if pages %}
+    <div class=\"panel-footer\">
+        {% include 'DevelopatheCrudBundle::pagination.html.twig' with {
+            currentFilters: { },
+            currentPage: page,
+            paginationPath: \"" ~ route_name_prefix ~ "\",
+            lastPage: pages,
+            showAlwaysFirstAndLast: true
+        } only %}
+    </div>
+    {% endif %}"}}
+</div>
+
+{{ "{% endblock body %}" }}
+
+{% endblock body %}
