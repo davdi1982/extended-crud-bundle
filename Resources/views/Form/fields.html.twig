@@ -6,6 +6,14 @@
 </div>
 {% endblock form_row %}
 
+{% block number_widget %}
+<input type="text" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+{% endblock number_widget %}
+
+{% block email_widget %}
+<input type="email" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+{% endblock email_widget %}
+
 {% block text_widget %}
 <input type="text" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
 {% endblock text_widget %}
