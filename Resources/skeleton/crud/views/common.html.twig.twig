@@ -16,7 +16,7 @@
 </div>
 
 {% if entity is defined and entity.id %}
-<div class=\"contextual-menu btn-group\">
+<div class=\"btn-group\">
     <a class=\"btn btn-default {%if '" ~ route_name_prefix ~ "_show' == app.request.attributes.get('_route')%} active{% endif %}\" href=\"{{ path('" ~ route_name_prefix ~ "_show', {'id': entity.id}) }}\">
         {% trans %}Show{% endtrans %}
     </a>
