@@ -7,8 +7,12 @@
 {% endblock form_row %}
 
 {% block number_widget %}
-<input type="text" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+<input type="number" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
 {% endblock number_widget %}
+
+{% block integer_widget %}
+<input type="number" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+{% endblock integer_widget %}
 
 {% block email_widget %}
 <input type="email" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
