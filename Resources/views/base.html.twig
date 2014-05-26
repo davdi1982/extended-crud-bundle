@@ -25,14 +25,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="#" class="navbar-brand">Crud Bundle by Dévelopathe</a>
+                    <a href="#" class="navbar-brand">{% trans %}Admin{% endtrans %}</a>
                 </div>
 
                 <div role="navigation" class="collapse navbar-collapse">
                     <ul  class="nav navbar-nav navbar-right">
                         <li><a href="https://github.com/developathe/crud-bundle/blob/master/README.md">Readme file</a></li>
-                        <li><a href="http://al.k13.fr/">_alK13's blog</a></li>
-                        <li><a href="http://developathe.com">Dévelopathe</a></li>
+                        
                     </ul>
                 </div>
             </div>
@@ -53,6 +52,10 @@
             </div><!-- div.alert -->
             {% endfor %}
             {% block body %}{% endblock body%}
+        </div>
+        
+        <div id="footer" class="container">
+            <p class="small text-right text-muted">The <a href="https://github.com/developathe/crud-bundle/blob/master/README.md">Crud Bundle</a> is a <a href="http://developathe.com">Dévelopathe</a>'s project.</li></p>
         </div>
 
     </div>
