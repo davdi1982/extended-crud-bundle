@@ -1,5 +1,10 @@
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
 developathe_crud_delete:
     pattern:  /crud-delete/{entity}/{id}
     defaults: { _controller: "DevelopatheCrudBundle:Api:delete" }
     requirements:
         _method: DELETE
+    options:
+        expose: true
