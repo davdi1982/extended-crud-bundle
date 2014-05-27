@@ -28,6 +28,12 @@ class ApiController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException("Unable to find $entity entity.");
         }
+        
+        $em->remove($entity);
+        $em->flush();
+        
+        $this->get('session')->getFlashBag()->add(
+                'success', 'The Post has been removed.');
 
         $content = json_encode(array(
             'status' => 'deleted',
