@@ -1,0 +1,5 @@
+developathe_crud_delete:
+    pattern:  /crud-delete/{entity}/{id}
+    defaults: { _controller: "DevelopatheCrudBundle:Api:delete" }
+    requirements:
+        _method: DELETE
