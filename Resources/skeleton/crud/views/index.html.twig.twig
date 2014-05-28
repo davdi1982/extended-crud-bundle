@@ -60,7 +60,7 @@
         </tbody>
     </table>
 
-    {{"{% if pages %}
+    {{"{% if pages > 1 %}
     <div class=\"panel-footer\">
         {% include 'DevelopatheCrudBundle::pagination.html.twig' with {
             currentFilters: { },
