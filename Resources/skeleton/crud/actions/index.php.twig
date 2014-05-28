@@ -30,20 +30,20 @@
 
         $pages = ceil($count / 20);
         
-        $entities = $em->getRepository('{{ bundle }}:{{ entity }}')
+        ${{ entity|lower }}List = $em->getRepository('{{ bundle }}:{{ entity }}')
         ->findBy(array(), NULL, 20, (($page - 1) * 20));
 {% endblock method_body %}
 
 {% block method_return %}
 {% if 'annotation' == format %}
         return array(
-            'entities' => $entities,
+            '{{ entity|lower }}List' => ${{ entity|lower }}List,
             'pages' => $pages,
             'page' => $page,
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.html.twig', array(
-            'entities' => $entities,
+            '{{ entity|lower }}List' => ${{ entity|lower }}List,
             'pages' => $pages,
             'page' => $page,
         ));

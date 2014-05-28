@@ -14,11 +14,11 @@
 
             {%- if metadata.type in ['date', 'datetime'] %}
 
-            {{ '{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}' }}
+            {{ '{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}' }}
 
             {%- else %}
 
-            {{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}
+            {{ '{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}
 
             {%- endif %}
 
