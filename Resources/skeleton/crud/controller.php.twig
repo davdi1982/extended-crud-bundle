@@ -57,5 +57,9 @@ class {{ entity_class }}Controller extends Controller
     {%- if 'delete' in actions %}
         {%- include 'crud/actions/delete.php.twig' %}
     {%- endif %}
+    
+    {%- if 'search' in actions %}
+        {%- include 'crud/actions/search.php.twig' %}
+    {%- endif %}
 {% endblock class_body %}
 }

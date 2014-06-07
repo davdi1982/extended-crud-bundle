@@ -1,65 +1,53 @@
 
     /**
 {% block phpdoc_method_header %}
-     * Displays a form to edit an existing {{ entity }} entity.
+     * Redirect the the list URL with the search parameter.
+     * @param \Symfony\Component\HttpFoundation\Request $request
 {% endblock phpdoc_method_header %}
      *
 {% block phpdoc_method_annotations %}
 {% if 'annotation' == format %}
-     * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
-     * @Method("GET")
+     * @Route("/search", name="{{ route_name_prefix }}_search")
+     * @Method("POST")
      * @Template()
 {% endif %}
 {% endblock phpdoc_method_annotations %}
      */
 {% block method_definition %}
-    public function editAction($id)
+    public function searchAction(Request $request)
 {% endblock method_definition %}
     {
 {% block method_body %}
-        $em = $this->getDoctrine()->getManager();
-
-        ${{ entity|lower }} = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
-
-        if (!${{ entity|lower }}) {
-            throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
-        }
-
-        $editForm = $this->createEditForm(${{ entity|lower }});
+    $all = $request->request->all();
 {% endblock method_body %}
 
 {% block method_return %}
-{% if 'annotation' == format %}
-        return array(
-            '{{ entity|lower }}'      => ${{ entity|lower }},
-            'edit_form'   => $editForm->createView(),
-        );
-{% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.html.twig', array(
-            '{{ entity|lower }}'      => ${{ entity|lower }},
-            'edit_form'   => $editForm->createView(),
-        ));
-{% endif %}
+    return $this->redirect($this->generateUrl('{{ route_name_prefix }}', array(
+                'page'   => 1,
+                'search' => urlencode($all['form']['q']),
+    )));
 {% endblock method_return %}
     }
 
 {% block form %}
     /**
-    * Creates a form to edit a {{ entity }} entity.
+    * Creates a form to search {{ entity }} entities.
     *
-    * @param {{ entity_class }} ${{ entity|lower }} The entity
+    * @param string $q
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm({{ entity_class }} ${{ entity|lower }})
+    private function createSearchForm($q = "")
     {
-        $form = $this->createForm(new {{ entity_class }}Type(), ${{ entity|lower }}, array(
-            'action' => $this->generateUrl('{{ route_name_prefix }}_update', array('id' => ${{ entity|lower }}->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
+        $data = array('q' => $q);
+        return $this->createFormBuilder($data)
+                ->setAction($this->generateUrl('{{ route_name_prefix }}_search'))
+                ->setMethod('post')
+                ->add('q', 'search', array(
+                    'label' => FALSE,
+                ))
+                ->add('submit', 'submit', array('label' => 'Search'))
+                ->getForm()
+        ;
     }
 {% endblock form %}
