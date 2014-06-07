@@ -17,9 +17,10 @@ $collection->add('{{ route_name_prefix }}_root', new Route('/', array(
     'permanent'   => true,
 )));
 
-$collection->add('{{ route_name_prefix }}', new Route('/list/{page}', array(
+$collection->add('{{ route_name_prefix }}', new Route('/list/{page}/{search}', array(
     '_controller' => '{{ bundle }}:{{ entity }}:index',
     'page'        => 1,
+    'search'        => "",
 )));
 {% endif %}
 
@@ -59,6 +60,12 @@ $collection->add('{{ route_name_prefix }}_delete', new Route(
     array('_controller' => '{{ bundle }}:{{ entity }}:delete')
 ));
 {% endif %}
+
+$collection->add('{{ route_name_prefix }}_search', new Route(
+    '/search',
+    array('_controller' => '{{ bundle }}:{{ entity }}:search'),
+    array('_method' => 'post')
+));
 {% endblock body %}
 
 {% block return %}

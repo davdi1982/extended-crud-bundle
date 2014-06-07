@@ -1,32 +1,31 @@
 {% block extends %}
-{{ "{% extends '" ~ bundle ~ ":" ~ entity ~ ":common.html.twig' %}" }}
+    {{ "{% extends '" ~ bundle ~ ":" ~ entity ~ ":common.html.twig' %}" }}
 {% endblock extends %}
 
 {{ "\{% set title = '" ~ entity ~ "'|trans %\}" }}
 
 {% block body %}
-{{ "{% block body %}" }}
-<ul class="list-group">
-        {%- for field, metadata in fields %}
+    {{ "{% block body %}" }}
+    {%- for field, metadata in fields %}
 
-    <li class="list-group-item">
-        <label>{{ field|capitalize }}:</label>
-
+    <div class="crud-field">
+        <div class="crud-field-label">{{ field|capitalize }}</div>
+        <div class="crud-field-value">
             {%- if metadata.type in ['date', 'datetime'] %}
 
-            {{ '{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}' }}
+            {{ '{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}' }}
 
             {%- else %}
 
-            {{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}
+            {{ '{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}
 
             {%- endif %}
 
-    </li>
+        </div>
+    </div>
 
-        {%- endfor %}
+    {%- endfor %}
 
-</ul>
 
-{{ "{% endblock %}" }}
+    {{ "{% endblock %}" }}
 {% endblock body %}

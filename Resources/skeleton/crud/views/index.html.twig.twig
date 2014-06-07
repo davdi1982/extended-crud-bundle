@@ -7,6 +7,9 @@
 {% block body %}
 {{ "{% block body -%}" }}
 <div class="panel panel-default">
+    <div class="panel-body search-form">
+        {{'{{'}} form(searchForm) {{'}}'}}
+    </div>
     <table class="table table-striped table-hover table-responsive">
         <thead>
             <tr>
@@ -21,33 +24,33 @@
             </tr>
         </thead>
         <tbody>
-            {{ '{% for entity in entities %}' }}
+            {{ '{% for ' ~ entity|lower ~ ' in ' ~ entity|lower ~ 'List %}' }}
             <tr>
 
             {%- for field, metadata in fields %}
                 {%- if loop.first and ('show' in actions) %}
 
-                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity|lower ~ ".id }) }}" }}">{{ '{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
 
                 {%- elseif metadata.type in ['date', 'datetime'] %}
 
-                <td>{{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+                <td>{{ '{% if ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
 
                 {%- else %}
 
-                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity|lower ~ ".id }) }}" }}">{{ '{{ ' ~ entity|lower ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
 
                 {%- endif %}
 
                 {%- if loop.last %}
 
                 <td>
-                    <a href="{{"{{ path('" ~ route_name_prefix ~ "_edit', {'id': entity.id}) }}"}}" title="{{"{% trans %}"}}Edit{{"{% endtrans %}"}}">
+                    <a href="{{"{{ path('" ~ route_name_prefix ~ "_edit', {'id': " ~ entity|lower ~ ".id}) }}"}}" title="{{"{% trans %}"}}Edit{{"{% endtrans %}"}}">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
                 </td>
                 <td>
-                    <a href="{{"{{ path('" ~ route_name_prefix ~ "_delete', {'id': entity.id}) }}"}}" title="{{"{% trans %}"}}Delete{{"{% endtrans %}"}}">
+                    <a href="{{"{{ path('" ~ route_name_prefix ~ "_delete', {'id': " ~ entity|lower ~ ".id}) }}"}}" class="crud-entity-delete" title="{{"{% trans %}"}}Delete{{"{% endtrans %}"}}" data-entity="{{ bundle }}:{{ entity }}" data-id="{{ '\{\{ ' ~ entity|lower ~ '.id \}\}' }}">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 </td>
@@ -62,8 +65,8 @@
 
     {{"{% if pages > 1 %}
     <div class=\"panel-footer\">
-        {% include 'DevelopatheCrudBundle::pagination.html.twig' with {
-            currentFilters: { },
+        {% include 'DevelopatheCrudBundle::developathe.crud.pagination.html.twig' with {
+            currentFilters: { 'search': search },
             currentPage: page,
             paginationPath: \"" ~ route_name_prefix ~ "\",
             lastPage: pages,
@@ -72,6 +75,24 @@
     </div>
     {% endif %}"}}
 </div>
+
+{{'<div id="entity-delete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"> Delete ' ~ entity ~ '\'s entry.</h4>
+      </div>
+      <div class="modal-body">
+        <p>{% trans with {\'%entity%\': \'' ~ entity ~ '\'} %}Please confirm you want to delete this %entity%\'s entry.{% endtrans %}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->'}}
 
 {{ "{% endblock body %}" }}
 

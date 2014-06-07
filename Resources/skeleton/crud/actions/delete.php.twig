@@ -19,14 +19,14 @@
         $deleteForm->handleRequest($request);
         
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
+        ${{ entity|lower }} = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
 
         if ($deleteForm->isValid()) {
-            if (!$entity) {
+            if (!${{ entity|lower }}) {
                 throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
             }
 
-            $em->remove($entity);
+            $em->remove(${{ entity|lower }});
             $em->flush();
             
             $this->get('session')->getFlashBag()->add(
@@ -39,7 +39,7 @@
 {% block method_return %}
 {#        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));#}
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:delete.html.twig', array(
-                'entity'      => $entity,
+                '{{ entity|lower }}'      => ${{ entity|lower }},
                 'delete_form' => $deleteForm->createView(),
         ));
 {% endblock method_return %}

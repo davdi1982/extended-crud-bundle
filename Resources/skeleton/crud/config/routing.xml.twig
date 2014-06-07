@@ -12,9 +12,10 @@
         <default key="permanent">true</default>
     </route>
     
-    <route id="{{ route_name_prefix }}" pattern="/list/{page}">
+    <route id="{{ route_name_prefix }}" pattern="/list/{page}/{search}">
         <default key="_controller">{{ bundle }}:{{ entity }}:index</default>
         <default key="page">1</default>
+        <default key="search">1</default>
     </route>
 
     <route id="{{ route_name_prefix }}_show" pattern="/{id}/show">
@@ -48,6 +49,11 @@
         <default key="_controller">{{ bundle }}:{{ entity }}:delete</default>
     </route>
 {% endif %}
+
+    <route id="{{ route_name_prefix }}_search" pattern="/search">
+        <default key="_controller">{{ bundle }}:{{ entity }}:search</default>
+        <requirement key="_method">post</requirement>
+    </route>
 {% endblock body %}
 
 </routes>
