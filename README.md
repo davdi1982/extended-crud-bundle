@@ -58,11 +58,3 @@ Now, you can use the DevelopatheCrudBundle command:
 ```
 php app/console developathe:generate:crud
 ```
-
-## Override the templates
-
-The DevelopatheCrudBundle embeds two templates :
-- Resources/view/base.html.twig
-- Resources/view/pagination.html.twig
-
-To override them, use the usual symfony way : [http://symfony.com/doc/2.3/cookbook/bundles/inheritance.html](http://symfony.com/doc/2.3/cookbook/bundles/inheritance.html)
