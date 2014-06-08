@@ -31,7 +31,7 @@
             ->where('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
                     {%- else %}
 
-            ->andWhere('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
+            ->orWhere('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
                     {%- endif %}
 
             ->setParameter(':{{ field|replace({'_': ''}) }}', '%' . $search . '%')
@@ -47,14 +47,21 @@
         
         ${{ entity|lower }}List = $em
             ->getRepository('{{ bundle }}:{{ entity }}')
-            ->createQueryBuilder('e'){% set firstField = TRUE %}{%- for field, metadata in fields %}{% if field|replace({'_': ''}) != "id" and metadata.type not in ['date', 'datetime'] %}{% if firstField %}{% set firstField = FALSE%}
-            
+            ->createQueryBuilder('e'){% set firstField = TRUE %}
+            {%- for field, metadata in fields -%}
+                {%- if field|replace({'_': ''}) != "id" and metadata.type not in ['date', 'datetime'] -%}
+                    {%- if firstField %}{% set firstField = FALSE %}
+
             ->where('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
-            {% else %}
-            ->andWhere('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
-            {% endif %}->setParameter(':{{ field|replace({'_': ''}) }}', '%' . $search . '%'){% endif %}
-            {% endfor%}
-                
+                    {%- else %}
+
+            ->orWhere('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
+                    {%- endif %}
+
+            ->setParameter(':{{ field|replace({'_': ''}) }}', '%' . $search . '%')
+                {%- endif -%}
+            {%- endfor %}
+
             ->setFirstResult(($page - 1) * 20)
             ->setMaxResults(20)
             ->getQuery()
