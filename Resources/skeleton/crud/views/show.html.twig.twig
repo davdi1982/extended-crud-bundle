@@ -9,7 +9,7 @@
     {%- for field, metadata in fields %}
 
     <div class="crud-field">
-        <div class="crud-field-label">{{ '\{\{\trans}\}' }}{{ field|capitalize }}{{ '\{\{\endtrans}\}' }}</div>
+        <div class="crud-field-label">{{ '\{\{trans}\}' }}{{ field|capitalize }}{{ '\{\{endtrans}\}' }}</div>
         <div class="crud-field-value">
             {%- if metadata.type in ['date', 'datetime'] %}
 
