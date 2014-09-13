@@ -17,9 +17,9 @@
 {% endblock method_definition %}
     {
 {% block method_body %}
-        $em = $this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
 
-        ${{ entity|lower }} = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
+        ${{ entity|lower }} = $manager->getRepository('{{ bundle }}:{{ entity }}')->find($id);
 
         if (!${{ entity|lower }}) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
