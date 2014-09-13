@@ -18,9 +18,13 @@
 {% endblock method_definition %}
     {
 {% block method_body %}
-        $em = $this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
         
-        $count = $em
+        // Escape special characters and decode the search value.
+        $search = addcslashes(urldecode($search), '%_');
+        
+        // Get the total entries.
+        $count = $manager
             ->getRepository('{{ bundle }}:{{ entity }}')
             ->createQueryBuilder('e')
             ->select('COUNT(e)'){% set firstField = TRUE %}
@@ -42,10 +46,11 @@
             ->getSingleScalarResult()
         ;
 
+        // Define the number of pages.
         $pages = ceil($count / 20);
         
-        
-        ${{ entity|lower }}List = $em
+        // Get the entries of current page.
+        ${{ entity|lower }}List = $manager
             ->getRepository('{{ bundle }}:{{ entity }}')
             ->createQueryBuilder('e'){% set firstField = TRUE %}
             {%- for field, metadata in fields -%}
@@ -53,15 +58,12 @@
                     {%- if firstField %}{% set firstField = FALSE %}
 
             ->where('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
-                    {%- else %}
-
+            {% else %}
+            
             ->orWhere('e.{{ field|replace({'_': ''}) }} LIKE :{{ field|replace({'_': ''}) }}')
-                    {%- endif %}
-
-            ->setParameter(':{{ field|replace({'_': ''}) }}', '%' . $search . '%')
-                {%- endif -%}
-            {%- endfor %}
-
+            {% endif %}->setParameter(':{{ field|replace({'_': ''}) }}', '%' . $search . '%'){% endif %}
+            {% endfor%}
+                
             ->setFirstResult(($page - 1) * 20)
             ->setMaxResults(20)
             ->getQuery()
@@ -81,8 +83,8 @@
             '{{ entity|lower }}List' => ${{ entity|lower }}List,
             'pages' => $pages,
             'page' => $page,
-            'search' => $search,
-            'searchForm' => $this->createSearchForm($search)->createView(),
+            'search' => stripslashes($search),
+            'searchForm' => $this->createSearchForm(stripslashes($search))->createView(),
         ));
 {% endif %}
 {% endblock method_return %}

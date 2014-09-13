@@ -18,16 +18,16 @@
         $deleteForm = $this->createDeleteForm($id);
         $deleteForm->handleRequest($request);
         
-        $em = $this->getDoctrine()->getManager();
-        ${{ entity|lower }} = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
+        $manager = $this->getDoctrine()->getManager();
+        ${{ entity|lower }} = $manager->getRepository('{{ bundle }}:{{ entity }}')->find($id);
 
         if ($deleteForm->isValid()) {
             if (!${{ entity|lower }}) {
                 throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
             }
 
-            $em->remove(${{ entity|lower }});
-            $em->flush();
+            $manager->remove(${{ entity|lower }});
+            $manager->flush();
             
             $this->get('session')->getFlashBag()->add(
                 'success', 'The {{ entity }} has been deleted.');
