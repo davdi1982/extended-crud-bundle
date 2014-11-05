@@ -1,14 +1,14 @@
 {
-    "name": "developathe/crud-bundle",
+    "name": "davdi1982/extended-crud-bundle",
     "type": "symfony-bundle",
-    "description": "CRUD Bundle by Dévelopathe",
+    "description": "Extended Dévelopathe CRUD Bundle by Davdi1982",
     "keywords": ["crud", "bootstrap", "bootstrap3", "scaffolding"],
-    "homepage": "http://developathe.com/",
+    "homepage": "",
     "license": "MIT",
     "authors": [
         {
-            "name": "Jean-Luc Petit",
-            "homepage": "http://al.k13.fr"
+            "name": "",
+            "homepage": ""
         }
     ],
     "require": {
