@@ -4,7 +4,7 @@ The CRUD Bundle by Developathe extends the Doctrine CRUD command and implements 
 
 Author: [\_alK13](http://al.k13.fr) - [Team Developathe](http://developathe.com)
 
-## Installation
+## Installation [Already added on my symfony-extended-version]
 
 Register the bundle in your composer.json file.
 ```
@@ -15,12 +15,12 @@ Register the bundle in your composer.json file.
 }
 ```
 
-Install the bundle:
+Install the bundle: 
 ```
 $ composer update
 ```
 
-Register the bundle:
+Register the bundle: [Already added on my symfony-extended-version]
 ``` php
 // app/AppKernel.php
 
