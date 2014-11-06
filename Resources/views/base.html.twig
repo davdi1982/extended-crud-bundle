@@ -42,7 +42,13 @@
 
         <div class="container">
             {% block contextualMenu %}{% endblock contextualMenu %}
-            <div class="page-header"><h1>{{ title|raw }}</h1></div>
+            <div class="page-header">
+                <h1>
+                {% if title is defined %}
+                    {{ title|raw }}
+                {% endif %}
+                </h1>
+            </div>
             {% if block('errors') is not empty %}
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <div class="alert alert-danger">{% block errors %}{% endblock errors %}</div>
